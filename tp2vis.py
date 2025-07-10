@@ -1310,29 +1310,32 @@ def tp2vispl(mslist, ampPlot=True, uvmax = 150.0, uvzoom=50.0, uvbin=0.5, show=F
             return                              # otherwise index error
         
 
+    # SJL 2025-Jul-01: Move this into the loop below.
+    #                  Searching for the peak channel for each MS,
+    #                  instead of a common fixed channel number.
     # Open reference MS (preferably, TP) and obtain max flux channel
     # --------------------------------------------------------------
 
-    if msTP != []:                              # if MS for TP exists
-        msfile = msTP[0]                        # use it as freq reference
-    else:                                       # otherwise
-        msfile = mslist[0]                      # use the first
-    ms.open(msfile)                             # open MS
-    ms.selectinit(reset=True)                   # all SPWs
+    # if msTP != []:                              # if MS for TP exists
+        # msfile = msTP[0]                        # use it as freq reference
+    # else:                                       # otherwise
+        # msfile = mslist[0]                      # use the first
+    # ms.open(msfile)                             # open MS
+    # ms.selectinit(reset=True)                   # all SPWs
 
-    print "Pick up max flux channel in %s" % (msfile)
-    cfreq  = ms.getdata('axis_info')['axis_info']['freq_axis']['chan_freq']
-                                                # (freq,spw)
-    cfreq  = np.transpose(cfreq[:,0]) / 1.0e9   # pick first spw
-    asum   = ms.getdata('amplitude')['amplitude'] # (pol,freq,vis)
-    asum   = asum.sum(axis=2).sum(axis=0)       # sum over vis & pol
-    maxc   = np.argmax(asum)                    # max flux channel
-    targetfreq = cfreq[maxc]                    # target freq for plot
-    ms.close()
+    # print "Pick up max flux channel in %s" % (msfile)
+    # cfreq  = ms.getdata('axis_info')['axis_info']['freq_axis']['chan_freq']
+                                                # # (freq,spw)
+    # cfreq  = np.transpose(cfreq[:,0]) / 1.0e9   # pick first spw
+    # asum   = ms.getdata('amplitude')['amplitude'] # (pol,freq,vis)
+    # asum   = asum.sum(axis=2).sum(axis=0)       # sum over vis & pol
+    # maxc   = np.argmax(asum)                    # max flux channel
+    # targetfreq = cfreq[maxc]                    # target freq for plot
+    # ms.close()
 
-    print "   (chan,freq) = (%d, %f GHz)" % (maxc,targetfreq)
+    # print "   (chan,freq) = (%d, %f GHz)" % (maxc,targetfreq)
 
-    del asum,maxc
+    # del asum,maxc
 
     # Setup figures
     # -------------
@@ -1348,17 +1351,38 @@ def tp2vispl(mslist, ampPlot=True, uvmax = 150.0, uvzoom=50.0, uvbin=0.5, show=F
     # -------------
     for ims in range(len(mslist)):
 
+        # SJL 2025-Jul-01: Searching for the peak channel for each MS
+        # Open MS and obtain max flux channel
+        # --------------------------------------------------------------
+
+        msfile = mslist[ims]
+        ms.open(msfile, nomodify=True)              # open MS
+        ms.selectinit(reset=True)                   # all SPWs
+
+        print "Pick up max flux channel in %s" % (msfile)
+        cfreq  = ms.getdata('axis_info')['axis_info']['freq_axis']['chan_freq']
+                                                    # (freq,spw)
+        cfreq  = np.transpose(cfreq[:,0]) / 1.0e9   # pick first spw
+        asum   = ms.getdata('amplitude')['amplitude'] # (pol,freq,vis)
+        asum   = asum.sum(axis=2).sum(axis=0)       # sum over vis & pol
+        maxc   = np.argmax(asum)                    # max flux channel
+        targetfreq = cfreq[maxc]                    # target freq for plot
+
+        print "   (chan,freq) = (%d, %f GHz)" % (maxc,targetfreq)
+
+        del asum,maxc
+
         # Open MS and find SPWs that contain targetfreq
         # ---------------------------------------------
-        msfile = mslist[ims]                    # this MS
+        # msfile = mslist[ims]                    # this MS  # SJL 2025-Jul-01
         color  = clist[ims]                     # plot color
         iarray = guessarray(msfile)             # array name
         fwhm0  = t2v_arrays[iarray]['fwhm100']  # FHWM at 100GHz [arcsec]
 
-        ms.open(msfile,nomodify=True)           # open MS
+        # ms.open(msfile,nomodify=True)           # open MS  # SJL 2025-Jul-01
 
         # Find SPWs that include targetfreq
-        ms.selectinit(reset=True)               # all spws
+        # ms.selectinit(reset=True)               # all spws  # SJL 2025-Jul-01
         spwinfo  = ms.getspectralwindowinfo()   # spw info
         spwlist  = []
         for ispw in spwinfo.keys():             # loop over SPWs
