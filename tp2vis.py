@@ -70,7 +70,7 @@ elif SDtele == 'NRO':
     # SJL 2025-Jul-12 Update 'dish' and 'fwhm100'
     apara = {'observatory':'ALMA',
              'antList':    ['TP'],
-             'dish':        15.0,
+             'dish':        45.0,
              'fwhm100':     14.02,                   # fwhm@100GHz [21.17"@115.2GHz]
              'maxRad':     999.0}
 else:
@@ -110,7 +110,7 @@ else:                                           # without vpmanager working,
         # SJL 2025-Jul-12 Update 'dish' and 'fwhm100'
         apara = {'observatory':'ALMA',
                  'antList':    ['ALMA'],
-                 'dish':        15.0,
+                 'dish':        45.0,
                  'fwhm100':     14.02,                   # fwhm@100GHz [21.17"@115.2GHz]
                  'maxRad':     999.0}
     else:
