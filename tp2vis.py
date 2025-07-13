@@ -59,7 +59,7 @@ if SDtele == 'TP':
              'dish':        12.0,
              'fwhm100':     65.2,                   # fwhm@100GHz [56.5"@115.2GHz]
              'maxRad':     999.0}
-if SDtele == 'TRAO' or SDtele == 'JCMT':
+elif SDtele == 'TRAO' or SDtele == 'JCMT':
     # SJL 2025-Jul-12 Update 'dish' and 'fwhm100'
     apara = {'observatory':'ALMA',
              'antList':    ['TP'],
@@ -99,7 +99,7 @@ else:                                           # without vpmanager working,
                  'dish':        12.0,
                  'fwhm100':     65.2,
                  'maxRad':     999.0}
-    if SDtele == 'TRAO' or SDtele == 'JCMT':
+    elif SDtele == 'TRAO' or SDtele == 'JCMT':
         # SJL 2025-Jul-12 Update 'dish' and 'fwhm100'
         apara = {'observatory':'ALMA',
                  'antList':    ['ALMA'],
