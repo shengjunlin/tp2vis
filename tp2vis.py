@@ -47,13 +47,36 @@ apara = {'observatory':'ALMA',
          'maxRad':     999.0}
 t2v_arrays['ALMA07'] = apara.copy()
 
-# ALMA TP [to deal with single-dish TP cube]
-apara = {'observatory':'ALMA',
-         'antList':    ['TP'],
-         'dish':        12.0,
-         'fwhm100':     65.2,                   # fwhm@100GHz [56.5"@115.2GHz]
-         'maxRad':     999.0}
-t2v_arrays['ALMATP'] = apara.copy()
+
+# SJL 2025-Jul-12: Considering the case with non-TP single dish cube,
+#                  a string variable "SDtele" is introduced.
+#                  User needs to define "SDtele = 'TP'" before runnung the script.
+
+if SDtele == 'TP':
+    # ALMA TP [to deal with single-dish TP cube]
+    apara = {'observatory':'ALMA',
+             'antList':    ['TP'],
+             'dish':        12.0,
+             'fwhm100':     65.2,                   # fwhm@100GHz [56.5"@115.2GHz]
+             'maxRad':     999.0}
+if SDtele == 'TRAO' or SDtele == 'JCMT':
+    # SJL 2025-Jul-12 Update 'dish' and 'fwhm100'
+    apara = {'observatory':'ALMA',
+             'antList':    ['TP'],
+             'dish':        15.0,
+             'fwhm100':     45.05,                   # fwhm@100GHz [36.50"@115.2GHz]
+             'maxRad':     999.0}
+elif SDtele == 'NRO':
+    # SJL 2025-Jul-12 Update 'dish' and 'fwhm100'
+    apara = {'observatory':'ALMA',
+             'antList':    ['TP'],
+             'dish':        15.0,
+             'fwhm100':     14.02,                   # fwhm@100GHz [21.17"@115.2GHz]
+             'maxRad':     999.0}
+else:
+    raise RuntimeError('''Unkown "SDtele" or it is not defined! Do "SDtele = 'TP'!"''')
+
+t2v_arrays['ALMATP'] = apara.copy()  # SJL 2025-Jul-12: Pretend it is ALMATP anyway.
 
 # VIRTUAL TP2VIS array [for TP visibilities]
 if False:                                       # once vpmanager is fixed,
@@ -70,11 +93,28 @@ if False:                                       # once vpmanager is fixed,
                   dopb=True)
     vp.summarizevps()
 else:                                           # without vpmanager working,
-    apara = {'observatory':'ALMA',              # use ALMA for now
-             'antList':    ['ALMA'],
-             'dish':        12.0,
-             'fwhm100':     65.2,
-             'maxRad':     999.0}
+    if SDtele == 'TP':
+        apara = {'observatory':'ALMA',              # use ALMA for now
+                 'antList':    ['ALMA'],
+                 'dish':        12.0,
+                 'fwhm100':     65.2,
+                 'maxRad':     999.0}
+    if SDtele == 'TRAO' or SDtele == 'JCMT':
+        # SJL 2025-Jul-12 Update 'dish' and 'fwhm100'
+        apara = {'observatory':'ALMA',
+                 'antList':    ['ALMA'],
+                 'dish':        15.0,
+                 'fwhm100':     45.05,                   # fwhm@100GHz [36.50"@115.2GHz]
+                 'maxRad':     999.0}
+    elif SDtele == 'NRO':
+        # SJL 2025-Jul-12 Update 'dish' and 'fwhm100'
+        apara = {'observatory':'ALMA',
+                 'antList':    ['ALMA'],
+                 'dish':        15.0,
+                 'fwhm100':     14.02,                   # fwhm@100GHz [21.17"@115.2GHz]
+                 'maxRad':     999.0}
+    else:
+        raise RuntimeError('''Unkown "SDtele" or it is not defined! Do "SDtele = 'TP'!"''')
 t2v_arrays['VIRTUAL']    = apara.copy()
 
 
