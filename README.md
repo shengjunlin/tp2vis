@@ -7,7 +7,7 @@ TP2VIS requires CASA versions **5.4.0 to 5.8.0 with Python 2 compatibility**.
 
 ### 1. tp2vispl:
 
-This function selected the line-detected channel based on the single-dish LSRK frequency, whereas the ALMA 7m and 12m visibilities are stored in the TOPO frame. The original code attempted to extract the same frequency channel from the TOPO frames in the visibility data, which may miss the actual line since the frame mismatch was not accounted for. This is particularly critical if the SPW has a narrow bandwidth and also a high resolution channel resolution, making it easier for the target channel to be offset in the TOPO frame.
+This function selected the line-detected channel based on the single-dish LSRK frequency, whereas the ALMA 7m and 12m visibilities are stored in the TOPO frame. The original code attempted to extract the same frequency channel from the TOPO frames in the visibility data, which may miss the actual line since the frame mismatch was not accounted for. This is particularly critical when the SPW has a narrow bandwidth, as the LSRK frequency from the TP data may fall entirely outside the 7m/12m TOPO bandwidth range, causing the 7m/12m data to be skipped during the visibility extraction.
 
 This version extracts the channel with the peak intensity from each of the single-dish cube, and the 7m and 12m visibilities, with an assumption that these selected channels have a similar LSRK frequency.
 
