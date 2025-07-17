@@ -33,7 +33,7 @@ Click "Clone or download" on the top for download options, or run
        git clone https://github.com/shengjunlin/tp2vis.git
 
 
-# tp2vis -- public distribution
+# tp2vis -- The original public distribution
 Total Power to Visibilities (TP2VIS): an ALMA Cycle 4 Development Study
 
 Jin Koda, Peter Teuben, Adele Plunkett, Tsuyoshi Sawada, Crystal Brogan, Ed Formalont
