@@ -24,7 +24,7 @@ A new variable `SDtele` is introduced to specify the single-dish telescope, allo
     SDtele = 'JCMT'; execfile('tp2vis.py')      # load tp2vis in JCMT mode (dish size = 15m)
     SDtele = 'NRO'; execfile('tp2vis.py')       # load tp2vis in NRO mode (dish size = 45m)
 
-It is now required to define `SDtele = 'TP'` before running `execfile('tp2vis.py')`, even with ALMA TP casa.
+It is now required to define `SDtele = 'TP'` before running `execfile('tp2vis.py')`, even with ALMA TP case.
 
 ## Download
 
