@@ -137,7 +137,8 @@ t2v_arrays['VIRTUAL']    = apara.copy()
 ## =================
     
 def tp2vis_version():
-    print "18-feb-2019"
+    # print "18-feb-2019"  # The original public distribution
+    print "SJL/jul-2025"
 
    
 def axinorder(image):
