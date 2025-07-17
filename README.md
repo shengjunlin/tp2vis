@@ -1,4 +1,39 @@
-# tp2vis
+# tp2vis -- SJL version
+Total Power to Visibilities (TP2VIS): an updated version by Sheng-Jun Lin (ASIAA)
+
+TP2VIS requires CASA versions **5.4.0 to 5.8.0 with Python 2 compatibility**.
+
+## Release note
+
+### 1. tp2vispl:
+
+This function selected the line-detected channel based on the single-dish LSRK frequency, whereas the ALMA 7m and 12m visibilities are stored in the TOPO frame. The original code attempted to extract the same frequency channel from the TOPO frames in the visibility data, which may miss the actual line since the frame mismatch was not accounted for. This is particularly critical if the SPW has a narrow bandwidth and also a high resolution channel resolution, making it easier for the target channel to be offset in the TOPO frame.
+
+This version extracts the channel with the peak intensity from each of the single-dish cube, and the 7m and 12m visibilities, with an assumption that these selected channels have a similar LSRK frequency.
+
+A comparison between the original and revised versions. Red dots indicate the single-dish data, green dots represent the 7m array, and blue dots represent the 12m array.
+
+![plot1](figures/tp2vispl_plots.png)
+
+### 2. New feature: Support for other single-dish telescopes:
+
+A new variable `SDtele` is introduced to specify the single-dish telescope, allowing `tp2vis.py` to select the appropriate beam size for the deconvolution step by modifying the variables `t2v_arrays['ALMATP']` and `t2v_arrays['VIRTUAL']`.
+
+    SDtele = 'TP'; execfile('tp2vis.py')        # load tp2vis in ALMA TP mode (dish size = 12m)
+    SDtele = 'TRAO'; execfile('tp2vis.py')      # load tp2vis in TRAO mode (dish size = 13.7m)
+    SDtele = 'JCMT'; execfile('tp2vis.py')      # load tp2vis in JCMT mode (dish size = 15m)
+    SDtele = 'NRO'; execfile('tp2vis.py')       # load tp2vis in NRO mode (dish size = 45m)
+
+It is now required to define `SDtele = 'TP'` before running `execfile('tp2vis.py')`, even with ALMA TP casa.
+
+## Download
+
+Click "Clone or download" on the top for download options, or run
+
+       git clone https://github.com/shengjunlin/tp2vis.git
+
+
+# tp2vis -- public distribution
 Total Power to Visibilities (TP2VIS): an ALMA Cycle 4 Development Study
 
 Jin Koda, Peter Teuben, Adele Plunkett, Tsuyoshi Sawada, Crystal Brogan, Ed Formalont
