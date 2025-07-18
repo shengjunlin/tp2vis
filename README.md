@@ -63,7 +63,7 @@ Please see [below](#preparations) for the details.
 
 The resulting plot shows the visibility amplitudes are well connected from the short to long baselines.
 
-![plot1](figures/tp2vispl_amp.png)
+<img src="figures/tp2vispl_amp.png" width="300">
 
 
 # tp2vis -- The original public distribution
