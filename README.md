@@ -7,9 +7,9 @@ TP2VIS requires CASA versions **5.4.0 to 5.8.0 with Python 2 compatibility**.
 
 ### 1. tp2vispl:
 
-This function selected the line-detected channel based on the single-dish LSRK frequency, whereas the ALMA 7m and 12m visibilities are stored in the TOPO frame. The original code attempted to extract the same frequency channel from the TOPO frames in the visibility data, which may miss the actual line since the frame mismatch was not accounted for. This is particularly critical when the SPW has a narrow bandwidth, as the LSRK frequency from the TP data may fall entirely outside the 7m/12m TOPO bandwidth range, causing the 7m/12m data to be skipped during the visibility extraction.
+This function selected the line-detected channel based on the single-dish LSRK frequency, whereas the ALMA 7m and 12m visibilities are stored in the TOPO frame. The original code attempted to extract the same frequency channel from the TOPO-frame visibilities, which may miss the actual line due to the frame mismatch. This issue is particularly critical when the SPW has a narrow bandwidth, as the LSRK frequency from the single-dish data may fall entirely outside the 7m/12m TOPO bandwidth range, causing the 7m/12m data to be skipped during the visibility extraction.
 
-This version extracts the channel with the peak intensity from each of the single-dish cube, and the 7m and 12m visibilities, with an assumption that these selected channels have a similar LSRK frequency.
+This revised version instead extracts the channel with the peak intensity from each of the single-dish-`tp2vis`ed visibilities, as well as from the 7m and 12m visibilities, under the assumption that the selected channels correspond to similar LSRK frequencies. Note that the original code identified the line-detected channel using only the first SPW. Therefore, this workaround also assumes that the target line is located in the first SPW of the visibilities from all three arrays. If that is not the case, it is recommended to remove unnecessary SPWs from measurement sets before running the code.
 
 A comparison between the original and revised versions. Red dots indicate the single-dish data, green dots represent the 7m array, and blue dots represent the 12m array.
 
@@ -31,6 +31,39 @@ It is now required to define `SDtele = 'TP'` before running `execfile('tp2vis.py
 Click "Clone or download" on the top for download options, or run
 
        git clone https://github.com/shengjunlin/tp2vis.git
+
+
+## Usage
+
+This example shows a quick look of the visibility amplitudes from three arrays.
+
+### 1. Preparations
+
+The following should be prepared.
+
+* `12m.ptg`: A text file which contains the 12m (mosaic) field pointing(s).
+
+* `12m.ms`, `7m.ms`: The 12m/7m measurement sets with only one SPW containing the target line.
+
+* `SD.im`: The single-dish cube in the CASA format and in the units of Jy per beam.
+
+* `SD_rms_Jybeam`: The RMS in the single-dish line-free channels in the units of Jy per beam.
+
+Please see [below](#preparations) for the details.
+
+### 2. Load and run TP2VIS
+
+    !ln -s $TP2VIS_folder/tp2vis.py       # Make a symbolic link at the working directory
+    SDtele = 'TP'; execfile('tp2vis.py')  # Load tp2vis in ALMA TP mode
+    tp2vis(infile='SD.im', outfile='SD.ms', ptg='12m.ptg', maxuv=10.0, rms=SD_rms_Jybeam, deconv=True)
+
+"`maxuv`" sets the maximum uv distance in meter for the output single-dish visibilities. Here 10m is for the ALMA TP 12m dish. Other appropriate values should be given for the other single dishes.
+
+    tp2vispl(mslist=['SD.ms', '7m.ms', '12m.ms'], outfig='plot_tp2viswt_rms.png')
+
+The resulting plot shows the visibility amplitudes are well connected from the short to long baselines.
+
+![plot1](figures/tp2vispl_amp.png)
 
 
 # tp2vis -- The original public distribution
@@ -65,7 +98,7 @@ You need only one script "tp2vis.py".
 To give you a quick idea how to run TP2VIS, here are the basic flow of commands in CASA, broken into 6 pieces. This document gives an overall flow, but look at examples listed below for more info.
 
 
-### 1. Preparations:
+### 1. Preparations:<a name="preparations"></a>
 
 #### 1.1: Make a pointing (**ptg**) file
 

@@ -17,6 +17,14 @@
 #    arangeax()
 #    guessarray()
 #
+# History:
+#    2025-Jul-01 (SJL):
+#       Update tp2vispl() to select the peak channel for each MS.
+#    2025-Jul-12 (SJL):
+#       Update the Global block, and introduce the "SDtele" parameter.
+
+
+
 
 import os, sys, shutil, re, time, datetime
 import numpy as np
@@ -138,7 +146,7 @@ t2v_arrays['VIRTUAL']    = apara.copy()
     
 def tp2vis_version():
     # print "18-feb-2019"  # The original public distribution
-    print "SJL/jul-2025"
+    print("SJL/jul-2025")
 
    
 def axinorder(image):
