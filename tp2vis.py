@@ -2,6 +2,8 @@
 # Total Power and Visibilities in a Joint Deconvolution
 #
 # Authors: Jin Koda & Peter Teuben
+# Contributor: Sheng-Jun Lin (SJL)
+# This revised version includes additional features and fixes.
 #
 # Public functions:
 #    tp2vis_version()
