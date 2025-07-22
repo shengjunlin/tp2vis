@@ -54,10 +54,10 @@ Please see [below](#preparations) for the details.
 ### 2. Load and run TP2VIS
 
     !ln -s $TP2VIS_folder/tp2vis.py       # Make a symbolic link at the working directory
-    SDtele = 'TP'; execfile('tp2vis.py')  # Load tp2vis in ALMA TP mode
-    tp2vis(infile='SD.im', outfile='SD.ms', ptg='12m.ptg', maxuv=10.0, rms=SD_rms_Jybeam, deconv=True)
+    SDtele = 'TRAO'; execfile('tp2vis.py')  # Load tp2vis in TRAO mode
+    tp2vis(infile='SD.im', outfile='SD.ms', ptg='12m.ptg', maxuv=13.0, rms=SD_rms_Jybeam, deconv=True)
 
-"`maxuv`" sets the maximum uv distance in meter for the output single-dish visibilities. Here 10m is for the ALMA TP 12m dish. Other appropriate values should be given for the other single dishes.
+"`maxuv`" sets the maximum uv distance in meter for the output single-dish visibilities. A value slightly smaller than the dish size is perferred (e.g., 10m for the ALMA TP 12m dish). Other appropriate values should be given for the other single dishes.
 
     tp2vispl(mslist=['SD.ms', '7m.ms', '12m.ms'], outfig='plot_tp2viswt_rms.png')
 
